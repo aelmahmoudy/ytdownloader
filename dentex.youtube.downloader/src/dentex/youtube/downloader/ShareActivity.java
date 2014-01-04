@@ -83,6 +83,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bugsense.trace.BugSenseHandler;
+import com.ironsrc.kudoskit.KudosKit;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.matsuhiro.android.connect.NetworkUtils;
 import com.matsuhiro.android.download.DownloadTask;
@@ -194,11 +195,7 @@ public class ShareActivity extends Activity {
 	private Drawable slMenuOrigBkg;
 	private static CharSequence constraint;
 	
-//	private int aoIndex;
-//	private File muxedVideo;
-//	private String muxedFileName;
-//	private NotificationCompat.Builder mBuilder;
-//	private NotificationManager mNotificationManager;
+	private KudosKit mKudosKit = null;
 	
 	@SuppressLint("NewApi")
 	@Override
@@ -252,6 +249,43 @@ public class ShareActivity extends Activity {
 		
 		// Language init
 		Utils.langInit(this);
+		
+		mKudosKit = new KudosKit(this, YTD.APP_ID, YTD.APP_KEY);
+		mKudosKit.setup(YTD.FEATURES, YTD.INAPP_IDS);
+		
+		mKudosKit.addListener(new KudosKit.Listener() {
+	        // Currently support for user-defined commands is not documented.
+	        // For now, return false.
+	        @Override
+	        public boolean rightspotCommand(String name, String arg) {
+	            // command not handled
+	            return false;
+	        }
+
+	        @Override
+	        public void onKudosKitEvent(KudosKit.EventId eventId, Object arg) {
+	            switch (eventId) {
+	            case EVENT_PRELOADED_RIGHTSPOTS:
+	                // rightspots got their modules ready
+	                //Utils.logger("d", "onKudosKitEvent: EVENT_PRELOADED_RIGHTSPOTS", DEBUG_TAG);
+	                break;
+	            case EVENT_PURCHASE_SUCCESS:
+	                // the user has successfully purchased an in-app item
+	            	//Utils.logger("d", "onKudosKitEvent: EVENT_PURCHASE_SUCCESS", DEBUG_TAG);
+	                break;
+	            case EVENT_RIGHTSPOT_ENTER:
+	            	// Entering a rightspot module
+	            	//Utils.logger("d", "onKudosKitEvent: EVENT_RIGHTSPOT_ENTER", DEBUG_TAG);
+	            	break;
+	            case EVENT_RIGHTSPOT_EXIT:
+	            	// Exiting a rightspot module
+	            	//Utils.logger("d", "onKudosKitEvent: EVENT_RIGHTSPOT_EXIT", DEBUG_TAG);
+	            	break;
+				default:
+					break;
+	            }
+	        }
+	    });
 		
 		// loading views from the layout xml
 		tv = (TextView) findViewById(R.id.textView1);
@@ -388,29 +422,39 @@ public class ShareActivity extends Activity {
 		startActivity(dashboardIntent);
 	}
 	
-	/*@Override
-	protected void onStart() {
-		super.onStart();
-		Utils.logger("v", "_onStart", DEBUG_TAG);
-	}
+//	@Override
+//	protected void onRestart() {
+//		super.onRestart();
+//		Utils.logger("v", "_onRestart");
+//	}
+//
+//	@Override
+//	public void onPause() {
+//		super.onPause();
+//		Utils.logger("v", "_onPause");
+//	}
 	
 	@Override
-	protected void onRestart() {
-		super.onRestart();
-		Utils.logger("v", "_onRestart");
-	}
-
-	@Override
-	public void onPause() {
-		super.onPause();
-		Utils.logger("v", "_onPause");
+	protected void onStart() {
+		super.onStart();
+		mKudosKit.onStart();
+		//mKudosKit.debug();
+		Utils.logger("v", "_onStart", DEBUG_TAG);
 	}
 	
 	@Override
 	protected void onStop() {
 		super.onStop();
+		mKudosKit.onStop();
 		Utils.logger("v", "_onStop", DEBUG_TAG);
-	}*/
+	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		mKudosKit.onDestroy();
+		Utils.logger("v", "_onDestroy", DEBUG_TAG);
+	}
 	
 	@Override
 	public void onBackPressed() {
@@ -1270,6 +1314,8 @@ public class ShareActivity extends Activity {
 					Utils.logger("v", "Auto FFmpeg task for ID " + ID
 							+ " not enabled OR already sent for this video", DEBUG_TAG);
 				}
+				
+				mKudosKit.startRightspot("DownloadTask finished");
 			}
 			
 			@Override

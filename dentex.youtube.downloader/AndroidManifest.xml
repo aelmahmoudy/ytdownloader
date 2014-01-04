@@ -3,7 +3,7 @@
     package="dentex.youtube.downloader"
     android:installLocation="auto"
     android:versionCode="75"
-    android:versionName="3.5.4.01-test-ffmpeg-x86" >
+    android:versionName="3.5.4.02-test-kudos-kit" >
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -13,6 +13,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
 
     <application
         android:name="dentex.youtube.downloader.YTD"
@@ -160,6 +161,11 @@
             android:configChanges="locale|orientation|screenSize|keyboard|keyboardHidden"
             android:label="@string/title_activity_dashboard" >
         </activity>
+        
+        <activity 
+            android:name="com.ironsrc.kudoskit.RightspotActivity"
+			android:theme="@android:style/Theme.Translucent"
+			android:configChanges="keyboardHidden|orientation|screenSize" />
     </application>
 
 </manifest>

@@ -98,6 +98,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bugsense.trace.BugSenseHandler;
+import com.ironsrc.kudoskit.KudosKit;
 import com.matsuhiro.android.download.DownloadTask;
 import com.matsuhiro.android.download.DownloadTaskListener;
 import com.matsuhiro.android.download.InvalidYoutubeLinkException;
@@ -179,6 +180,8 @@ public class DashboardActivity extends Activity {
 	private File audioOnlyFile;
 	public String audioOnlyExt = "";
 	DashboardListItem aoItem;
+	
+	private KudosKit mKudosKit = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -213,6 +216,43 @@ public class DashboardActivity extends Activity {
     	da = new DashboardAdapter(itemsList, this);
     	lv.setAdapter(da);
     	
+		mKudosKit = new KudosKit(this, YTD.APP_ID, YTD.APP_KEY);
+		mKudosKit.setup(YTD.FEATURES, YTD.INAPP_IDS);
+		
+		mKudosKit.addListener(new KudosKit.Listener() {
+	        // Currently support for user-defined commands is not documented.
+	        // For now, return false.
+	        @Override
+	        public boolean rightspotCommand(String name, String arg) {
+	            // command not handled
+	            return false;
+	        }
+
+	        @Override
+	        public void onKudosKitEvent(KudosKit.EventId eventId, Object arg) {
+	            switch (eventId) {
+	            case EVENT_PRELOADED_RIGHTSPOTS:
+	                // rightspots got their modules ready
+	                //Utils.logger("d", "onKudosKitEvent: EVENT_PRELOADED_RIGHTSPOTS", DEBUG_TAG);
+	                break;
+	            case EVENT_PURCHASE_SUCCESS:
+	                // the user has successfully purchased an in-app item
+	            	//Utils.logger("d", "onKudosKitEvent: EVENT_PURCHASE_SUCCESS", DEBUG_TAG);
+	                break;
+	            case EVENT_RIGHTSPOT_ENTER:
+	            	// Entering a rightspot module
+	            	//Utils.logger("d", "onKudosKitEvent: EVENT_RIGHTSPOT_ENTER", DEBUG_TAG);
+	            	break;
+	            case EVENT_RIGHTSPOT_EXIT:
+	            	// Exiting a rightspot module
+	            	//Utils.logger("d", "onKudosKitEvent: EVENT_RIGHTSPOT_EXIT", DEBUG_TAG);
+	            	break;
+				default:
+					break;
+	            }
+	        }
+	    });
+    	
 		/*entries = */parseJson();
 		updateProgressBars();
 		buildList();
@@ -233,6 +273,8 @@ public class DashboardActivity extends Activity {
     	
     	lv.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				
+				mKudosKit.startRightspot("Dashboard onItemClick");
 				
 				if (!YTD.isAnyAsyncInProgress) {
 					currentItem = da.getItem(position); // in order to refer to the filtered item
@@ -409,6 +451,8 @@ public class DashboardActivity extends Activity {
 
         	@Override
         	public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+        		
+        		mKudosKit.startRightspot("Dashboard onItemLongClick");
 
         		if (!YTD.isAnyAsyncInProgress) {
 	        		currentItem = da.getItem(position); // in order to refer to the filtered item
@@ -1266,6 +1310,28 @@ public class DashboardActivity extends Activity {
     	
     	autoUpdate.cancel();
     }
+    
+	@Override
+	protected void onStart() {
+		super.onStart();
+		mKudosKit.onStart();
+		//YTD.mKudosKit.debug();
+		Utils.logger("v", "_onStart", DEBUG_TAG);
+	}
+	
+	@Override
+	protected void onStop() {
+		super.onStop();
+		mKudosKit.onStop();
+		Utils.logger("v", "_onStop", DEBUG_TAG);
+	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		mKudosKit.onDestroy();
+		Utils.logger("v", "_onDestroy", DEBUG_TAG);
+	}
 	
 	private class AsyncDelete extends AsyncTask<DashboardListItem, Void, Boolean> {
 

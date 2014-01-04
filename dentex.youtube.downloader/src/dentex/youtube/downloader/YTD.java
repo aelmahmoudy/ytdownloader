@@ -69,6 +69,8 @@ public class YTD extends Application implements QueueThreadListener{
 	public static String BugsenseApiKey = "00000000";				// actual api key
 	public static boolean SHOW_ITAGS_AND_NO_SIZE_FOR_DUBUG = false;	// false
 	
+	private static String kudosKitKey = "0000000000";				// actual api key
+	
 	public static int SIG_HASH = -1892118308;   					// final string
 	//public static int SIG_HASH = -118685648;  					// dev test: desktop
 	//public static int SIG_HASH = 1922021506;  					// dev test: laptop
@@ -178,6 +180,16 @@ public class YTD extends Application implements QueueThreadListener{
 	public static List<Integer> iVoList = Arrays.asList(iVo);
 	public static List<Integer> iAoList = Arrays.asList(iAo);
 	
+	//kudos-kit
+	public static final String APP_ID = "dentex.youtube.downloader";
+		// The application key from the developer console
+	public static final String APP_KEY = kudosKitKey;
+		// The names of the in-app items associated with your application
+		// You should use an empty array if you don't have in-app items to publish
+	public static final String[] INAPP_IDS = new String[] {/*"ytd_kudos1", "ytd_kudos2", "ytd_kudos3"*/};
+		// An array of feature strings; leave empty for now
+	public static final String[] FEATURES = new String[] {};
+		
 	@Override
 	public void onCreate() {
 		Log.d(DEBUG_TAG, "onCreate");
