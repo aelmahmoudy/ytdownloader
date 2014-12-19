@@ -37,7 +37,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import android.content.Context;
 import android.util.Log;
 
-import com.bugsense.trace.BugSenseHandler;
 import com.matsuhiro.android.connect.NetworkUtils;
 
 public class FetchUrl {
@@ -56,11 +55,9 @@ public class FetchUrl {
             return downloadWebPage(url);
         } catch (IOException e) {
         	Log.e(DEBUG_TAG, "doFetch IOException: " + e.getMessage());
-	    	BugSenseHandler.sendExceptionMessage(DEBUG_TAG + "-> doFetch", e.getMessage(), e);
             return "e";
         } catch (RuntimeException e) {
         	Log.e(DEBUG_TAG, "doFetch RuntimeException: " + e.getMessage());
-	    	BugSenseHandler.sendExceptionMessage(DEBUG_TAG + "-> doFetch", e.getMessage(), e);
 	    	return "e";
         }
     }

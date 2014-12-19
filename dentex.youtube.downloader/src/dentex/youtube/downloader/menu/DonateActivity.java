@@ -38,7 +38,6 @@ import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.view.Window;
 
-import com.bugsense.trace.BugSenseHandler;
 
 import dentex.youtube.downloader.R;
 import dentex.youtube.downloader.utils.Utils;
@@ -51,7 +50,6 @@ public class DonateActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        BugSenseHandler.leaveBreadcrumb("DonateActivity_onCreate");
         this.setTitle(R.string.title_activity_donate);
     	
     	getWindow().requestFeature(Window.FEATURE_PROGRESS);

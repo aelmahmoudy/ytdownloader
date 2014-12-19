@@ -56,7 +56,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bugsense.trace.BugSenseHandler;
 
 import dentex.youtube.downloader.utils.FetchUrl;
 import dentex.youtube.downloader.utils.PopUps;
@@ -86,7 +85,6 @@ public class UpgradeApkActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		BugSenseHandler.leaveBreadcrumb("UpgradeApkActivity_onCreate");
 		getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
 		
 		// Theme init
@@ -220,7 +218,6 @@ public class UpgradeApkActivity extends Activity {
 				}
             } catch (Exception e) {
             	Log.e(DEBUG_TAG, "doInBackground: " + e.getMessage());
-            	BugSenseHandler.sendExceptionMessage(DEBUG_TAG + "-> downloadUrl: ", e.getMessage(), e);
             	matchedVersion = "n.a.";
                 return null;//"e";
             }
@@ -271,11 +268,9 @@ public class UpgradeApkActivity extends Activity {
 	    	enqueue = downloadManager.enqueue(request);
 	    } catch (IllegalArgumentException e) {
 	    	Log.e(DEBUG_TAG, "callDownloadApk: " + e.getMessage());
-	    	BugSenseHandler.sendExceptionMessage(DEBUG_TAG + "-> callDownloadApk: ", e.getMessage(), e);
 	    	YTD.NoDownProvPopUp(this);
 	    } catch (NullPointerException ne) {
 	    	Log.e(DEBUG_TAG, "callDownloadApk: " + ne.getMessage());
-	    	BugSenseHandler.sendExceptionMessage(DEBUG_TAG + "-> callDownloadApk: ", ne.getMessage(), ne);
 	    	Toast.makeText(this, getString(R.string.error), Toast.LENGTH_SHORT).show();
 	    }
 	}

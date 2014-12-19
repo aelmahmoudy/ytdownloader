@@ -75,7 +75,6 @@ import android.provider.MediaStore.MediaColumns;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
-import com.bugsense.trace.BugSenseHandler;
 
 import dentex.youtube.downloader.R;
 import dentex.youtube.downloader.SettingsActivity;
@@ -363,7 +362,6 @@ public class Utils {
 	 * A: http://stackoverflow.com/users/1473663/nobu-games
 	 */
 	public static Intent createEmailOnlyChooserIntent(Context ctx, Intent source, CharSequence chooserTitle) {
-		BugSenseHandler.leaveBreadcrumb("createEmailOnlyChooserIntent");
 		Stack<Intent> intents = new Stack<Intent>();
         Intent i = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto",
         		"info@domain.com", null));
@@ -390,7 +388,6 @@ public class Utils {
 	
 	public static void notifyFfmpegNotInstalled(final Activity act) {
 		Utils.logger("w", "FFmpeg not installed/enabled", DEBUG_TAG);
-		BugSenseHandler.leaveBreadcrumb("notifyFfmpegNotInstalled");
 		AlertDialog.Builder adb = new AlertDialog.Builder(act);
 		adb.setTitle(act.getString(R.string.ffmpeg_not_enabled_title));
 		adb.setMessage(act.getString(R.string.ffmpeg_not_enabled_msg));

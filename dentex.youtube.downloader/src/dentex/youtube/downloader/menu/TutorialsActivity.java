@@ -35,7 +35,6 @@ import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.view.Window;
 
-import com.bugsense.trace.BugSenseHandler;
 
 import dentex.youtube.downloader.R;
 import dentex.youtube.downloader.utils.PopUps;
@@ -49,7 +48,6 @@ public class TutorialsActivity extends Activity {
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        BugSenseHandler.leaveBreadcrumb("TutorialsActivity_onCreate");
         this.setTitle(R.string.title_activity_tutorials);
     	
     	getWindow().requestFeature(Window.FEATURE_ACTION_BAR);

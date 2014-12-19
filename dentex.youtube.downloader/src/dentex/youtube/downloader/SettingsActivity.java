@@ -59,7 +59,6 @@ import android.view.MenuItem;
 import android.view.Window;
 import android.widget.Toast;
 
-import com.bugsense.trace.BugSenseHandler;
 
 import dentex.youtube.downloader.menu.AboutActivity;
 import dentex.youtube.downloader.menu.DonateActivity;
@@ -78,7 +77,6 @@ public class SettingsActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        BugSenseHandler.leaveBreadcrumb("SettingsActivity_onCreate");
         
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         
@@ -563,7 +561,6 @@ public class SettingsActivity extends Activity {
 		public void onActivityResult(int requestCode, int resultCode, Intent data) {
         	if (requestCode == 0) {
                 if (resultCode == RESULT_OK) {
-                	BugSenseHandler.leaveBreadcrumb("SettingsActivity_filechooser_RESULT_OK");
                     @SuppressWarnings("unchecked")
 					List<LocalFile> files = (List<LocalFile>) data.getSerializableExtra(FileChooserActivity._Results);
                     	

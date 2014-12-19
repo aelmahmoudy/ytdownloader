@@ -52,7 +52,6 @@ import android.util.Log;
 import android.util.SparseArray;
 import android.view.WindowManager;
 
-import com.bugsense.trace.BugSenseHandler;
 
 import dentex.youtube.downloader.queue.QueueThread;
 import dentex.youtube.downloader.queue.QueueThreadListener;
@@ -187,7 +186,6 @@ public class YTD extends Application implements QueueThreadListener{
 		settings = getSharedPreferences(PREFS_NAME, 0);
 		videoinfo = getSharedPreferences(VIDEOINFO_NAME, 0);
 		
-		BugSenseHandler.initAndStartSession(getApplicationContext(), BugsenseApiKey);
 		
 		queueThread = new QueueThread(this);
         queueThread.start();
@@ -374,7 +372,6 @@ public class YTD extends Application implements QueueThreadListener{
 			}
 		} catch (NullPointerException e) {
 			Log.e(DEBUG_TAG, "NPE at removeIdUpdateNotification: " + e.getMessage());
-			BugSenseHandler.sendExceptionMessage("NPE at removeIdUpdateNotification", e.getMessage(), e);
 		}
 	}
 

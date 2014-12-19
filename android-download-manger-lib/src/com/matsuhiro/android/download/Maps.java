@@ -5,7 +5,6 @@ import java.util.Map;
 
 import android.util.Log;
 
-import com.bugsense.trace.BugSenseHandler;
 
 public class Maps {
 	private static String DEBUG_TAG = "ADML_Maps";
@@ -24,7 +23,6 @@ public class Maps {
 			mNetworkSpeedMap.remove(ID);
 		} catch (UnsupportedOperationException e) {
 			Log.e(DEBUG_TAG, "ID " + ID + " removeFromAllMaps: " + e.getMessage());
-			BugSenseHandler.sendExceptionMessage(DEBUG_TAG, "ID " + ID + " removeFromAllMaps: " + e.getMessage(), e);
 		}
 	}
 	

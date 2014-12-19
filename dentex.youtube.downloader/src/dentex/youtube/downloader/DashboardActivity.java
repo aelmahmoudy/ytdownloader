@@ -97,7 +97,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bugsense.trace.BugSenseHandler;
 import com.matsuhiro.android.download.DownloadTask;
 import com.matsuhiro.android.download.DownloadTaskListener;
 import com.matsuhiro.android.download.InvalidYoutubeLinkException;
@@ -183,7 +182,6 @@ public class DashboardActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		BugSenseHandler.leaveBreadcrumb("DashboardActivity_onCreate");
 		sDashboard = DashboardActivity.this;
 
 		// Theme init
@@ -380,7 +378,6 @@ public class DashboardActivity extends Activity {
 								}
 
 								private void downloadLatestFFmpeg() {
-									BugSenseHandler.leaveBreadcrumb("downloadLatestFFmpeg");
 									AlertDialog.Builder adb = new AlertDialog.Builder(sDashboard);
 									adb.setTitle(getString(R.string.information));
 									adb.setMessage(getString(R.string.ffmpeg_new_v_required));
@@ -490,40 +487,31 @@ public class DashboardActivity extends Activity {
 						public void onClick(DialogInterface dialog, int which) {
 				    		switch (which) {
 				    			case 0:
-				    				BugSenseHandler.leaveBreadcrumb("copy");
 				    				copy(currentItem);
 				    				break;
 				    			case 1:
-				    				BugSenseHandler.leaveBreadcrumb("move");
 				    				move(currentItem);
 				    				break;
 				    			case 2:
-				    				BugSenseHandler.leaveBreadcrumb("rename");
 				    				rename(currentItem);
 				    				break;
 				    			case 3:
 				    				if (currentItem.getStatus().equals(getString(R.string.json_status_failed))) {
-				    					BugSenseHandler.leaveBreadcrumb("reDownload_RESTART");
 				    					reDownload(currentItem, "RESTART");
 				    				} else {
-				    					BugSenseHandler.leaveBreadcrumb("reDownload");
 				    					reDownload(currentItem, "-");
 				    				}
 				    				break;
 				    			case 4:
-				    				BugSenseHandler.leaveBreadcrumb("send");
 				    				send(currentItem);
 				    				break;
 				    			case 5:
-				    				BugSenseHandler.leaveBreadcrumb("removeFromDashboard");
 				    				removeFromDashboard(currentItem);
 				    				break;
 				    			case 6:
-				    				BugSenseHandler.leaveBreadcrumb("delete");
 				    				delete(currentItem);
 				    				break;
 				    			case 7:
-				    				BugSenseHandler.leaveBreadcrumb("pauseresume");
 				    				pauseresume(currentItem);
 				    		}
 	
@@ -734,7 +722,6 @@ public class DashboardActivity extends Activity {
 		Utils.logger("d", "pauseresume on id " + itemID, DEBUG_TAG);
 		
 		if (currentItem.getStatus().equals(getString(R.string.json_status_in_progress))) {
-			BugSenseHandler.leaveBreadcrumb("...pausing");
 			
 			try {
 				if (Maps.dtMap.containsKey(itemIDlong)) {
@@ -752,7 +739,6 @@ public class DashboardActivity extends Activity {
 				}
 			} catch (NullPointerException e) {
 		    	Log.e(DEBUG_TAG, "dt.cancel() @ pauseresume: " + e.getMessage());
-		    	BugSenseHandler.sendExceptionMessage(DEBUG_TAG + "-> dt.cancel() @ pauseresume: ", e.getMessage(), e);
 		    }
 			
 			YTD.removeIdUpdateNotification(itemIDlong);
@@ -773,7 +759,6 @@ public class DashboardActivity extends Activity {
 		}
 		
 		if (currentItem.getStatus().equals(getString(R.string.json_status_paused))) {
-			BugSenseHandler.leaveBreadcrumb("...resuming");
 			String link = YTD.videoinfo.getString(String.valueOf(itemID) + "_link", null);
 					
 			if (link != null) {
@@ -996,7 +981,6 @@ public class DashboardActivity extends Activity {
         
         switch(item.getItemId()){
         	case R.id.menu_search:
-        		BugSenseHandler.leaveBreadcrumb("DashboardActivity_menu_search");
     			if (!isSearchBarVisible) {
     				spawnSearchBar();
     			} else {
@@ -1009,7 +993,6 @@ public class DashboardActivity extends Activity {
         		startActivity(sIntent);
     			return true;
         	case R.id.menu_backup:
-        		BugSenseHandler.leaveBreadcrumb("DashboardActivity_menu_backup");
         		String previousJson = JsonHelper.readJsonDashboardFile();
                 boolean smtInProgressOrPaused = (previousJson.contains(YTD.JSON_DATA_STATUS_IN_PROGRESS) || 
         				 previousJson.contains(YTD.JSON_DATA_STATUS_PAUSED));
@@ -1056,7 +1039,6 @@ public class DashboardActivity extends Activity {
         		}
         		return true;
         	case R.id.menu_restore:
-        		BugSenseHandler.leaveBreadcrumb("DashboardActivity_menu_restore");
         		String previousJson2 = JsonHelper.readJsonDashboardFile();
                 boolean smtInProgressOrPaused2 = (previousJson2.contains(YTD.JSON_DATA_STATUS_IN_PROGRESS) || 
         				 previousJson2.contains(YTD.JSON_DATA_STATUS_PAUSED));
@@ -1103,7 +1085,6 @@ public class DashboardActivity extends Activity {
         		}
         		return true;
         	case R.id.menu_import:
-        		BugSenseHandler.leaveBreadcrumb("DashboardActivity_menu_import");
         		boolean importCheckboxEnabled1 = YTD.settings.getBoolean("dashboard_import_info", true);
 			    if (importCheckboxEnabled1 == true) {
 			    	
@@ -1321,7 +1302,6 @@ public class DashboardActivity extends Activity {
 				isResultOk = removeTemp(fileToDel, id);
 			} catch (NullPointerException e) {
 				Log.e(DEBUG_TAG, "dt.cancel(): " + e.getMessage());
-		    	BugSenseHandler.sendExceptionMessage(DEBUG_TAG + "-> dt.cancel() @ doDelete: ", e.getMessage(), e);
 			}
 		} else if (item.getStatus().equals(getString(R.string.json_status_paused))) {
 			isResultOk = removeTemp(fileToDel, id);
@@ -1452,7 +1432,6 @@ public class DashboardActivity extends Activity {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode == RESULT_OK) {
-			BugSenseHandler.leaveBreadcrumb("DashboardActivity_filechooser_RESULT_OK");
             @SuppressWarnings("unchecked")
 			List<LocalFile> files = (List<LocalFile>) data.getSerializableExtra(FileChooserActivity._Results);
             
@@ -2291,7 +2270,6 @@ public class DashboardActivity extends Activity {
 	// #####################################################################
 	
 	public void editId3Tags(View view) {
-		BugSenseHandler.leaveBreadcrumb("editId3Tags");
 		if (newClick) {
 			tagArtist = "";
 			tagAlbum = "";
@@ -2350,7 +2328,6 @@ public class DashboardActivity extends Activity {
 	}
 
 	public void ffmpegJob(final File fileToConvert, final String bitrateType, final String bitrateValue) {
-		BugSenseHandler.leaveBreadcrumb("ffmpegJob");
 		isFfmpegRunning = true;
 		
 		vfilename = currentItem.getFilename();
@@ -2659,7 +2636,6 @@ public class DashboardActivity extends Activity {
 	}
 
 	public void setNotificationForAudioJobError() {
-		BugSenseHandler.leaveBreadcrumb("setNotificationForAudioJobError");
 		String text;
 		if (!extrTypeIsMp3Conv) {
 			text = getString(R.string.audio_extr_error);
@@ -2708,21 +2684,18 @@ public class DashboardActivity extends Activity {
 	}
 
 	public void openVideoIntent(final File in) {
-		BugSenseHandler.leaveBreadcrumb("openVideoIntent");
 		Intent openIntent = new Intent(Intent.ACTION_VIEW);
 		openIntent.setDataAndType(Uri.fromFile(in), "video/*");
 		startActivity(Intent.createChooser(openIntent, getString(R.string.open_chooser_title)));
 	}
 
 	public void openAudioIntent(final File in) {
-		BugSenseHandler.leaveBreadcrumb("openAudioIntent");
 		Intent openIntent = new Intent(Intent.ACTION_VIEW);
 		openIntent.setDataAndType(Uri.fromFile(in), "audio/*");
 		startActivity(Intent.createChooser(openIntent, getString(R.string.open_chooser_title)));
 	}
 
 	public void extractAudioOnly(final File in) {
-		BugSenseHandler.leaveBreadcrumb("extractAudioOnly");
 		AlertDialog.Builder builder0 = new AlertDialog.Builder(sDashboard);
 		
 		String[] title = getResources().getStringArray(R.array.dashboard_click_entries);
@@ -2765,7 +2738,6 @@ public class DashboardActivity extends Activity {
 	}
 
 	public void extractAudioAndConvertToMp3(final File in) {
-		BugSenseHandler.leaveBreadcrumb("extractAudioAndConvertToMp3");
 		AlertDialog.Builder builder = new AlertDialog.Builder(sDashboard);
 		
 		String[] title = getResources().getStringArray(R.array.dashboard_click_entries);
@@ -2809,7 +2781,6 @@ public class DashboardActivity extends Activity {
 	}
 
 	public void convertAudioToMp3(final File in) {
-		BugSenseHandler.leaveBreadcrumb("convertAudioToMp3");
 		AlertDialog.Builder builder = new AlertDialog.Builder(sDashboard);
 		
 		String[] title = getResources().getStringArray(R.array.dashboard_click_entries_audio);
@@ -2852,7 +2823,6 @@ public class DashboardActivity extends Activity {
 	}
 	
 	public void addAudioStream(final File in) {
-		BugSenseHandler.leaveBreadcrumb("addAudioStream");
 		
 		isFfmpegRunning = true;
 
@@ -2921,7 +2891,6 @@ public class DashboardActivity extends Activity {
 	}
 	
 	public void mux(final File in) {
-		BugSenseHandler.leaveBreadcrumb("mux");
 		
 		String ext = Utils.getExtFromFileName(in.getName());
 		String basename = currentItem.getBasename();

@@ -43,7 +43,6 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Window;
 
-import com.bugsense.trace.BugSenseHandler;
 
 import dentex.youtube.downloader.R;
 import dentex.youtube.downloader.docs.ApacheShowActivity;
@@ -66,7 +65,6 @@ public class AboutActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        BugSenseHandler.leaveBreadcrumb("AboutActivity_onCreate");
         this.setTitle(R.string.title_activity_about);
     	
     	getWindow().requestFeature(Window.FEATURE_ACTION_BAR);

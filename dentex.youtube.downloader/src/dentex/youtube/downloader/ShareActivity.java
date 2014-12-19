@@ -79,7 +79,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bugsense.trace.BugSenseHandler;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.matsuhiro.android.connect.NetworkUtils;
 import com.matsuhiro.android.download.DownloadTask;
@@ -199,7 +198,6 @@ public class ShareActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		BugSenseHandler.leaveBreadcrumb("ShareActivity_onCreate");
 		sShare = ShareActivity.this;
 		
 //		aoIndex = -1;
@@ -278,7 +276,6 @@ public class ShareActivity extends Activity {
 		String type = intent.getType();
 
 		if (Intent.ACTION_SEND.equals(action) && type != null) {
-			BugSenseHandler.leaveBreadcrumb("Intent.ACTION_SEND");
 			if ("text/plain".equals(type)) {
 				try {
 					handleSendText(intent, action);
@@ -290,7 +287,6 @@ public class ShareActivity extends Activity {
 		}
 		
 		if (Intent.ACTION_VIEW.equals(action)) {
-			BugSenseHandler.leaveBreadcrumb("Intent.ACTION_VIEW");
 			if (intent.hasCategory("AUTO")) {
 				autoModeEnabled = true;
 				extraId = intent.getStringExtra("id");
@@ -474,7 +470,6 @@ public class ShareActivity extends Activity {
 	}
 
 	public void badOrNullLinkAlert() {
-		BugSenseHandler.leaveBreadcrumb("badOrNullLinkAlert");
 		progressBar1.setVisibility(View.GONE);
 		PopUps.showPopUp(getString(R.string.error), getString(R.string.bad_link_dialog_msg), "error", this);
 		tv.setVisibility(View.GONE);
@@ -583,7 +578,6 @@ public class ShareActivity extends Activity {
 				}
 			} catch (Exception e) {
 				Log.e(DEBUG_TAG, "downloadUrl: " + e.getMessage());
-				BugSenseHandler.sendExceptionMessage(DEBUG_TAG + "-> downloadUrl: ", e.getMessage(), e);
 				return "e";
 			} 
 		}
@@ -611,18 +605,15 @@ public class ShareActivity extends Activity {
 			}
 			
 			if (result == null || result.equals("e") && !autoModeEnabled) {
-				BugSenseHandler.leaveBreadcrumb("invalid_url");
 				noVideosMsgs("error", getString(R.string.invalid_url));
 				showRetryButton();
 			}
 			
 			if (result != null && result.equals("login_required") && !autoModeEnabled) {
-				BugSenseHandler.leaveBreadcrumb("login_required");
 				noVideosMsgs("status", getString(R.string.login_required));
 			}
 			
 			if (result != null && result.equals("rtmpe")) {
-				BugSenseHandler.leaveBreadcrumb("encrypted_streams");
 				listEntries.clear();
 				noVideosMsgs("status", getString(R.string.encrypted_streams));
 			}
@@ -632,7 +623,6 @@ public class ShareActivity extends Activity {
 			
 			
 			if (autoModeEnabled) {
-				BugSenseHandler.leaveBreadcrumb("autoModeEnabled");
 				assignPath();
 				
 				try {
@@ -659,7 +649,6 @@ public class ShareActivity extends Activity {
 			lv.setOnItemClickListener(new OnItemClickListener() {
 				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 					//Utils.logger("i", "Selected link: " + links.get(pos), DEBUG_TAG);
-					BugSenseHandler.leaveBreadcrumb("ShareActivity_onItemClick");
 					assignPath();
 
 					// get the filtered position
@@ -775,7 +764,6 @@ public class ShareActivity extends Activity {
 
 				@Override
 				public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-					BugSenseHandler.leaveBreadcrumb("ShareActivity_onItemLongClick");
 					pos = position;
 					
 					basenameTagged = composeFilenameWithOutExt();
@@ -824,7 +812,6 @@ public class ShareActivity extends Activity {
 		}
 
 		private void share() {
-			BugSenseHandler.leaveBreadcrumb("ShareActivity_share");
 			Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
 			sharingIntent.setType("text/plain");
 			sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, filenameComplete);
@@ -833,7 +820,6 @@ public class ShareActivity extends Activity {
 		}
 
 		private void copy() {
-			BugSenseHandler.leaveBreadcrumb("ShareActivity_copy");
 			ClipData cmd = ClipData.newPlainText("simple text", links.get(pos));
 			ClipboardManager cb = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
 			cb.setPrimaryClip(cmd);
@@ -866,7 +852,6 @@ public class ShareActivity extends Activity {
 		}
 
 		private void callConnectBot() {
-			BugSenseHandler.leaveBreadcrumb("callConnectBot");
 			Context context = getApplicationContext();
 			PackageManager pm = context.getPackageManager();
 			
@@ -907,7 +892,6 @@ public class ShareActivity extends Activity {
 		}
 
 		private void sendViaSsh() {
-			BugSenseHandler.leaveBreadcrumb("sendViaSsh");
 			try {
 				String wgetCmd;
 				
@@ -1119,7 +1103,6 @@ public class ShareActivity extends Activity {
 	
 	// TODO DM
 	private void callDownloadManager() {
-		BugSenseHandler.leaveBreadcrumb("callDownloadManager");
 		
 		dtl = new DownloadTaskListener() {
 			

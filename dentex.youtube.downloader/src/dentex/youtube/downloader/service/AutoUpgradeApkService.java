@@ -50,7 +50,6 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.bugsense.trace.BugSenseHandler;
 
 import dentex.youtube.downloader.R;
 import dentex.youtube.downloader.YTD;
@@ -80,8 +79,6 @@ public class AutoUpgradeApkService extends Service {
 	@Override
 	public void onCreate() {
 		Utils.logger("d", "service created", DEBUG_TAG);
-		BugSenseHandler.initAndStartSession(this, YTD.BugsenseApiKey);
-		BugSenseHandler.leaveBreadcrumb("AutoUpgradeApkService_onCreate");
 		registerReceiver(apkReceiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
 		
 		currentVersion = UpdateHelper.findCurrentAppVersion(this);
@@ -130,7 +127,6 @@ public class AutoUpgradeApkService extends Service {
 				}
             } catch (Exception e) {
             	Log.e(DEBUG_TAG, "doInBackground: " + e.getMessage());
-            	BugSenseHandler.sendExceptionMessage(DEBUG_TAG + "-> downloadUrl: ", e.getMessage(), e);
             	matchedVersion = "n.a.";
                 return null;//"e";
             }
@@ -185,10 +181,8 @@ public class AutoUpgradeApkService extends Service {
 	    	enqueue = downloadManager.enqueue(request);
 	    } catch (IllegalArgumentException e) {
 	    	Log.e(DEBUG_TAG, "callDownloadApk: " + e.getMessage());
-	    	BugSenseHandler.sendExceptionMessage(DEBUG_TAG + "-> callDownloadApk: ", e.getMessage(), e);
 	    } catch (NullPointerException ne) {
 	    	Log.e(DEBUG_TAG, "callDownloadApk: " + ne.getMessage());
-	    	BugSenseHandler.sendExceptionMessage(DEBUG_TAG + "-> callDownloadApk: ", ne.getMessage(), ne);
 	    }
 	}
 

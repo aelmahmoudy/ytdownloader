@@ -44,7 +44,6 @@ import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.bugsense.trace.BugSenseHandler;
 
 import dentex.youtube.downloader.R;
 import dentex.youtube.downloader.SettingsActivity;
@@ -72,8 +71,6 @@ public class FfmpegDownloadService extends Service {
 	@Override
 	public void onCreate() {
 		Utils.logger("d", "service created", DEBUG_TAG);
-		BugSenseHandler.initAndStartSession(this, YTD.BugsenseApiKey);
-		BugSenseHandler.leaveBreadcrumb("FfmpegDownloadService_onCreate");
 		nContext = getBaseContext();	
 		registerReceiver(ffmpegReceiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
 	}
@@ -116,15 +113,12 @@ public class FfmpegDownloadService extends Service {
         } catch (IllegalArgumentException e) {
 	    	Log.e(DEBUG_TAG, "downloadFfmpeg: " + e.getMessage());
 	    	Toast.makeText(this,  this.getString(R.string.no_downloads_sys_app), Toast.LENGTH_SHORT).show();
-	    	BugSenseHandler.sendExceptionMessage(DEBUG_TAG + "-> downloadFfmpeg", e.getMessage(), e);
 	    } catch (SecurityException se) {
 	    	request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, YTD.ffmpegBinName);
 	    	enqueue = dm.enqueue(request);
 	    	DIR = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
-	    	BugSenseHandler.sendExceptionMessage(DEBUG_TAG + "-> downloadFfmpeg", se.getMessage(), se);
 	    } catch (NullPointerException ne) {
 	    	Log.e(DEBUG_TAG, "callDownloadApk: " + ne.getMessage());
-	    	BugSenseHandler.sendExceptionMessage(DEBUG_TAG + "-> callDownloadApk: ", ne.getMessage(), ne);
 	    	Toast.makeText(this, getString(R.string.error), Toast.LENGTH_SHORT).show();
 	    }
         
