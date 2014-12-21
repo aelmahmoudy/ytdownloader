@@ -2,8 +2,10 @@
 
 dest=README_.md
 
-echo "YouTube Downloader for Android _ by dentex
+echo "YouTube Downloader for Android  
 ================================================================
+originally by dentex (Samuele Rini)  
+currently maintained by João Matos
 
 Download YouTube video and extract or convert audio to mp3.
 For Android 4+ 
@@ -17,13 +19,13 @@ code=`grep -oE 'versionCode=".+"' dentex.youtube.downloader/AndroidManifest.xml`
 
 name=`grep -oE 'versionName=".+"' dentex.youtube.downloader/AndroidManifest.xml`
 
-md5=`md5sum dentex.youtube.downloader_v*.apk | sed 's/  /\` /'`
+#md5=`md5sum dentex.youtube.downloader_v*.apk | sed 's/  /\` /'`
 
 echo '`'$code'`' >> $dest
 
 echo -e "\n\`$name\`" >> $dest
 
-echo -e "\nMD5 checksum: \`"$md5 >> $dest
+#echo -e "\nMD5 checksum: \`"$md5 >> $dest
 
 echo "
 DISCLAIMER
@@ -33,12 +35,6 @@ DISCLAIMER
     any consequence that may derive. Thus, this application has to be 
     considered as a mere technical service provider.
     
-NOTICE
-================================================================
-    Complying with the GPL below is mandatory.
-    It's not that difficult: just give proper credits 
-    to this sources and release your modified ones.
-
 LICENSE
 ================================================================
 Copyright (C) 2012-2013  Samuele Rini
@@ -96,3 +92,10 @@ KNOWN ISSUES
 ================================================================" >> $dest
 
 cat KNOWN_ISSUES >> $dest
+
+echo "
+NEWS 
+================================================================" >> $dest
+
+cat NEWS.md >> $dest
+

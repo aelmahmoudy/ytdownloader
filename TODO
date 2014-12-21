@@ -1,3 +1,9 @@
+	[ ] Change App's package name as to avoid clashing with Samuele Rini's proprietary version
+	[ ] Automatic download resume
+	[ ] Make notification icon change with download status
+	[ ] Optionally sort Dashboard by date added and upload date
+	[ ] Stop app from switching activities upon resuming downloads
+	[ ] Add option for automatically choosing download format without user interaction
 	[ ] implement other FFmpeg functions
 	[ ] compile FFmpeg to support x86 Android ABI [wip]
 	[ ] support subtitles download

@@ -1,5 +1,8 @@
-YouTube Downloader for Android _ by dentex
+YouTube Downloader for Android
 ================================================================
+originally by dentex (Samuele Rini)  
+currently maintained by João Matos
+
 
 Download YouTube video and extract or convert audio to mp3.
 For Android 4+ 
@@ -8,11 +11,9 @@ For Android 4+
 
 ################################################################
 
-`versionCode="75"`
+`versionCode="76"`
 
-`versionName="3.5.4"`
-
-MD5 checksum: `486a4299a4b1bb7330a7c488a93d3d1d` dentex.youtube.downloader_v3.5.4.apk
+`versionName="3.5.5"`
 
 DISCLAIMER
 ================================================================
@@ -21,12 +22,6 @@ DISCLAIMER
     any consequence that may derive. Thus, this application has to be 
     considered as a mere technical service provider.
     
-NOTICE
-================================================================
-    Complying with the GPL below is mandatory.
-    It's not that difficult: just give proper credits 
-    to this sources and release your modified ones.
-
 LICENSE
 ================================================================
 Copyright (C) 2012-2013  Samuele Rini
@@ -146,6 +141,11 @@ OTHER LICENSES
 CHANGELOG
 ================================================================
     
+     v3.5.5 - Dec 21 2014 
+    ----------------------------------- 
+    [x] Add support for youtu.be links. 
+    [x] Remove proprietary Bugsense library. 
+     
      v3.5.4 - Dic 17 2013 
     ----------------------------------- 
     [x] possibility to import into Dashboard multiple files at once 
@@ -469,6 +469,12 @@ CHANGELOG
 
 TO-DO LIST
 ================================================================
+	[ ] Change App's package name as to avoid clashing with Samuele Rini's proprietary version
+	[ ] Automatic download resume
+	[ ] Make notification icon change with download status
+	[ ] Optionally sort Dashboard by date added and upload date
+	[ ] Stop app from switching activities upon resuming downloads
+	[ ] Add option for automatically choosing download format without user interaction
 	[ ] implement other FFmpeg functions
 	[ ] compile FFmpeg to support x86 Android ABI [wip]
 	[ ] support subtitles download
@@ -487,3 +493,20 @@ KNOWN ISSUES
 		AND 
 		- without having the Dashboard Activity to the front
 		may be forced to PAUSE. In this case a manual resume is needed.
+	[x] The same video can be added twice if the user is quick enough, leading to weird behaviour
+NEWS 
+================================================================
+2014-12-21
+
+Samuele Rini (dentex), the original author of this app, no longer
+releases it as Free Software.
+	
+I, João Matos, will now be acting as the maintainer of this
+maintenance fork of the last Free version of the original project.
+
+I may consider developing new features for this app if I find the
+interest to learn further about Android app developent, an activity I
+have virtually no experience in at this point in time.
+
+I will not be providing a binary package for this app for the time
+being. Get it from [F-Droid](https://f-droid.org/repository/browse/?fdid=dentex.youtube.downloader).

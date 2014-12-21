@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="changelog">
+        \n v3.5.5 - Dec 21 2014
+        \n-----------------------------------
+        \n[x] Add support for youtu.be links.
+        \n[x] Remove proprietary Bugsense library.
+        \n
         \n v3.5.4 - Dic 17 2013
         \n-----------------------------------
         \n[x] possibility to import into Dashboard multiple files at once
